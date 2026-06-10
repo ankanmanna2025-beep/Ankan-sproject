@@ -1,0 +1,36 @@
+Title: 2D Shape Drawing System Using C
+
+Develop a menu-driven C program that allows users to draw various 2D shapes using asterisks (*). The program should provide an interactive interface where the user can select a shape, choose whether it should be filled or hollow, and enter the required dimensions.
+
+The system should support the following shapes:
+
+1. Square
+2. Rectangle
+3. Right Triangle
+4. Inverted Triangle
+5. Diamond
+6. Parallelogram
+7. Rhombus
+8. Circle
+
+Features:
+
+* Menu-driven interface.
+* User-friendly input handling.
+* Option for Hollow and Filled patterns.
+* Validation of dimensions.
+* Ability to draw multiple shapes until the user exits.
+* Clear output formatting.
+
+The objective of the project is to demonstrate the use of loops, conditional statements, functions, pattern generation techniques, and modular programming concepts in C language.
+
+Programming Language: C
+
+Concepts Used:
+
+* Functions
+* Loops (for, while)
+* Conditional Statements
+* Switch Case
+* Pattern Printing
+* User Input Handling
