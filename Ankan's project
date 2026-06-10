@@ -1,116 +1,151 @@
+```c
 #include <stdio.h>
-#include <math.h>
 
-#define ROWS 25
-#define COLS 60
-
-char canvas[ROWS][COLS];
-
-/* Initialize canvas */
-void initCanvas()
+void square()
 {
-    int i, j;
-    for(i = 0; i < ROWS; i++)
-        for(j = 0; j < COLS; j++)
-            canvas[i][j] = '_';
-}
+    int n, style;
 
-/* Display canvas */
-void displayCanvas()
-{
-    int i, j;
+    printf("Enter side length: ");
+    scanf("%d", &n);
 
-    printf("\n");
-    for(i = 0; i < ROWS; i++)
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d", &style);
+
+    for(int i=0;i<n;i++)
     {
-        for(j = 0; j < COLS; j++)
-            printf("%c ", canvas[i][j]);
+        for(int j=0;j<n;j++)
+        {
+            if(style==2 || i==0 || i==n-1 || j==0 || j==n-1)
+                printf("* ");
+            else
+                printf("  ");
+        }
         printf("\n");
     }
 }
 
-/* Plot a point */
-void plot(int x, int y, char ch)
+void rectangle()
 {
-    if(x >= 0 && x < ROWS && y >= 0 && y < COLS)
-        canvas[x][y] = ch;
-}
+    int w,h,style;
 
-/* Draw Line using DDA algorithm */
-void drawLine(int x1, int y1, int x2, int y2, char ch)
-{
-    int dx = x2 - x1;
-    int dy = y2 - y1;
+    printf("Enter width: ");
+    scanf("%d",&w);
 
-    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+    printf("Enter height: ");
+    scanf("%d",&h);
 
-    float xInc = dx / (float)steps;
-    float yInc = dy / (float)steps;
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d",&style);
 
-    float x = x1;
-    float y = y1;
-
-    int i;
-    for(i = 0; i <= steps; i++)
+    for(int i=0;i<h;i++)
     {
-        plot((int)(x + 0.5), (int)(y + 0.5), ch);
-        x += xInc;
-        y += yInc;
+        for(int j=0;j<w;j++)
+        {
+            if(style==2 || i==0 || i==h-1 || j==0 || j==w-1)
+                printf("* ");
+            else
+                printf("  ");
+        }
+        printf("\n");
     }
 }
 
-/* Draw Rectangle */
-void drawRectangle(int x, int y, int width, int height, char ch)
+void triangle()
 {
-    drawLine(x, y, x, y + width, ch);
-    drawLine(x + height, y, x + height, y + width, ch);
-    drawLine(x, y, x + height, y, ch);
-    drawLine(x, y + width, x + height, y + width, ch);
-}
+    int n,style;
 
-/* Draw Triangle */
-void drawTriangle(int x1, int y1,
-                  int x2, int y2,
-                  int x3, int y3,
-                  char ch)
-{
-    drawLine(x1, y1, x2, y2, ch);
-    drawLine(x2, y2, x3, y3, ch);
-    drawLine(x3, y3, x1, y1, ch);
-}
+    printf("Enter height: ");
+    scanf("%d",&n);
 
-/* Draw Circle */
-void drawCircle(int xc, int yc, int r, char ch)
-{
-    int x, y;
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d",&style);
 
-    for(x = 0; x < ROWS; x++)
+    for(int i=1;i<=n;i++)
     {
-        for(y = 0; y < COLS; y++)
+        for(int j=1;j<=i;j++)
         {
-            double dist =
-                sqrt((x - xc) * (x - xc) +
-                     (y - yc) * (y - yc));
-
-            if(fabs(dist - r) < 0.5)
-                plot(x, y, ch);
+            if(style==2 || i==n || j==1 || j==i)
+                printf("* ");
+            else
+                printf("  ");
         }
+        printf("\n");
     }
 }
 
-/* Delete Rectangle Area */
-void deleteArea(int x1, int y1, int x2, int y2)
+void invertedTriangle()
 {
-    int i, j;
+    int n,style;
 
-    for(i = x1; i <= x2; i++)
+    printf("Enter height: ");
+    scanf("%d",&n);
+
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d",&style);
+
+    for(int i=n;i>=1;i--)
     {
-        for(j = y1; j <= y2; j++)
+        for(int j=1;j<=i;j++)
         {
-            if(i >= 0 && i < ROWS &&
-               j >= 0 && j < COLS)
-                canvas[i][j] = '_';
+            if(style==2 || i==n || j==1 || j==i)
+                printf("* ");
+            else
+                printf("  ");
         }
+        printf("\n");
+    }
+}
+
+void diamond()
+{
+    int n;
+
+    printf("Enter size: ");
+    scanf("%d",&n);
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=i;j<n;j++)
+            printf(" ");
+
+        for(int j=1;j<=2*i-1;j++)
+            printf("*");
+
+        printf("\n");
+    }
+
+    for(int i=n-1;i>=1;i--)
+    {
+        for(int j=n;j>i;j--)
+            printf(" ");
+
+        for(int j=1;j<=2*i-1;j++)
+            printf("*");
+
+        printf("\n");
+    }
+}
+
+void parallelogram()
+{
+    int n;
+
+    printf("Enter size: ");
+    scanf("%d",&n);
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=n;j>i;j--)
+            printf(" ");
+
+        for(int j=1;j<=n;j++)
+            printf("* ");
+
+        printf("\n");
     }
 }
 
@@ -118,89 +153,56 @@ int main()
 {
     int choice;
 
-    initCanvas();
-
-    do
+    while(1)
     {
-        printf("\n===== 2D GRAPHICS EDITOR =====\n");
-        printf("1. Draw Line\n");
-        printf("2. Draw Rectangle\n");
-        printf("3. Draw Triangle\n");
-        printf("4. Draw Circle\n");
-        printf("5. Delete Area\n");
-        printf("6. Display Picture\n");
-        printf("0. Exit\n");
+        printf("\n");
+        printf("===== 2D SHAPE DRAWER =====\n");
+        printf("1. Square\n");
+        printf("2. Rectangle\n");
+        printf("3. Triangle\n");
+        printf("4. Inverted Triangle\n");
+        printf("5. Diamond\n");
+        printf("6. Parallelogram\n");
+        printf("7. Exit\n");
+
         printf("Enter choice: ");
-        scanf("%d", &choice);
+        scanf("%d",&choice);
 
         switch(choice)
         {
             case 1:
-            {
-                int x1, y1, x2, y2;
-                printf("Enter x1 y1 x2 y2: ");
-                scanf("%d%d%d%d",
-                      &x1,&y1,&x2,&y2);
-
-                drawLine(x1,y1,x2,y2,'*');
+                square();
                 break;
-            }
 
             case 2:
-            {
-                int x,y,w,h;
-                printf("Enter top-left x y width height: ");
-                scanf("%d%d%d%d",&x,&y,&w,&h);
-
-                drawRectangle(x,y,w,h,'*');
+                rectangle();
                 break;
-            }
 
             case 3:
-            {
-                int x1,y1,x2,y2,x3,y3;
-                printf("Enter x1 y1 x2 y2 x3 y3: ");
-                scanf("%d%d%d%d%d%d",
-                      &x1,&y1,&x2,&y2,&x3,&y3);
-
-                drawTriangle(x1,y1,x2,y2,x3,y3,'*');
+                triangle();
                 break;
-            }
 
             case 4:
-            {
-                int xc,yc,r;
-                printf("Enter center x y and radius: ");
-                scanf("%d%d%d",&xc,&yc,&r);
-
-                drawCircle(xc,yc,r,'*');
+                invertedTriangle();
                 break;
-            }
 
             case 5:
-            {
-                int x1,y1,x2,y2;
-                printf("Enter area x1 y1 x2 y2: ");
-                scanf("%d%d%d%d",
-                      &x1,&y1,&x2,&y2);
-
-                deleteArea(x1,y1,x2,y2);
+                diamond();
                 break;
-            }
 
             case 6:
-                displayCanvas();
+                parallelogram();
                 break;
 
-            case 0:
-                printf("Exiting...\n");
-                break;
+            case 7:
+                printf("Program Ended.\n");
+                return 0;
 
             default:
-                printf("Invalid Choice!\n");
+                printf("Invalid Choice\n");
         }
-
-    } while(choice != 0);
+    }
 
     return 0;
 }
+```
