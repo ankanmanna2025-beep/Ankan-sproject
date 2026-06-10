@@ -1,4 +1,4 @@
-```c
+
 #include <stdio.h>
 
 void square()
@@ -205,4 +205,4 @@ int main()
 
     return 0;
 }
-```
+
