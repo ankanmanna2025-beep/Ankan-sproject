@@ -1,190 +1,207 @@
+
 #include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
 
-#define MAX_INPUT 50
-#define MIN_DIMENSION 3
-#define MAX_DIMENSION 20
+void square()
+{
+    int n, style;
 
-// Enumerations for clean state management
-typedef enum {
-    SHAPE_INVALID,
-    SHAPE_SQUARE,
-    SHAPE_RECTANGLE,
-    SHAPE_TRIANGLE
-} ShapeType;
+    printf("Enter side length: ");
+    scanf("%d", &n);
 
-typedef enum {
-    STYLE_HOLLOW = 1,
-    STYLE_FILLED = 2
-} DrawStyle;
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d", &style);
 
-// --- Utility Functions ---
-
-// Helper to clear input buffer to prevent infinite loops on bad input
-void clear_buffer(void) {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
-
-// Converts a string to lowercase for case-insensitive matching
-void sanitize_string(char str[]) {
-    // Remove trailing newline if present from fgets
-    str[strcspn(str, "\n")] = '\0';
-    
-    for (int i = 0; str[i]; i++) {
-        str[i] = (char)tolower((unsigned char)str[i]);
-    }
-}
-
-// Safely reads an integer within a specific range
-int get_safe_int(const char *prompt, int min, int max) {
-    int value;
-    char term;
-    while (1) {
-        printf("%s (%d-%d): ", prompt, min, max);
-        if (scanf("%d%c", &value, &term) == 2 && term == '\n') {
-            if (value >= min && value <= max) {
-                return value;
-            }
-            printf("Error: Value out of bounds.\n");
-        } else {
-            printf("Error: Invalid numeric input.\n");
-            clear_buffer();
-        }
-    }
-}
-
-// Maps user string input to the ShapeType enum
-ShapeType get_shape_type(const char *input) {
-    if (strcmp(input, "square") == 0)    return SHAPE_SQUARE;
-    if (strcmp(input, "rectangle") == 0) return SHAPE_RECTANGLE;
-    if (strcmp(input, "triangle") == 0)  return SHAPE_TRIANGLE;
-    return SHAPE_INVALID;
-}
-
-// --- Shape Drawing Core Engine ---
-
-void draw_square(int size, DrawStyle style) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            if (style == STYLE_FILLED || i == 0 || i == size - 1 || j == 0 || j == size - 1) {
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(style==2 || i==0 || i==n-1 || j==0 || j==n-1)
                 printf("* ");
-            } else {
-                printf("  "); // Two spaces to match the "* " formatting
-            }
-        }
-        printf("\n");
-    }
-}
-
-void draw_rectangle(int width, int height, DrawStyle style) {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (style == STYLE_FILLED || i == 0 || i == height - 1 || j == 0 || j == j == width - 1) {
-                // Fixed logic for hollow bounds checking
-                if (style == STYLE_FILLED || i == 0 || i == height - 1 || j == 0 || j == width - 1) {
-                    printf("* ");
-                } else {
-                    printf("  ");
-                }
-            }
-        }
-        printf("\n");
-    }
-}
-
-void draw_triangle(int height, DrawStyle style) {
-    for (int i = 1; i <= height; i++) {
-        for (int j = 1; j <= i; j++) {
-            // Logic for outline vs filled right-angled triangle
-            if (style == STYLE_FILLED || i == height || j == 1 || j == i) {
-                printf("* ");
-            } else {
+            else
                 printf("  ");
-            }
         }
         printf("\n");
     }
 }
 
-// --- Application Interface ---
+void rectangle()
+{
+    int w,h,style;
 
-void display_header(void) {
-    printf("===========================================\n");
-    printf("        PROFESSIONAL 2D SHAPE ENGINE       \n");
-    printf("===========================================\n");
-    printf("Supported shapes: [square] [rectangle] [triangle]\n");
-    printf("Type 'exit' to close the application.\n\n");
-}
+    printf("Enter width: ");
+    scanf("%d",&w);
 
-void process_rendering(ShapeType shape) {
-    int style_choice = get_safe_int("Select Style [1] Hollow  [2] Filled", 1, 2);
-    DrawStyle style = (DrawStyle)style_choice;
+    printf("Enter height: ");
+    scanf("%d",&h);
 
-    printf("\n--- Rendering Configurations ---\n");
-    
-    switch (shape) {
-        case SHAPE_SQUARE: {
-            int size = get_safe_int("Enter side length", MIN_DIMENSION, MAX_DIMENSION);
-            printf("\nResult:\n");
-            draw_square(size, style);
-            break;
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d",&style);
+
+    for(int i=0;i<h;i++)
+    {
+        for(int j=0;j<w;j++)
+        {
+            if(style==2 || i==0 || i==h-1 || j==0 || j==w-1)
+                printf("* ");
+            else
+                printf("  ");
         }
-        case SHAPE_RECTANGLE: {
-            int width = get_safe_int("Enter width", MIN_DIMENSION, MAX_DIMENSION);
-            int height = get_safe_int("Enter height", MIN_DIMENSION, MAX_DIMENSION);
-            printf("\nResult:\n");
-            draw_rectangle(width, height, style);
-            break;
-        }
-        case SHAPE_TRIANGLE: {
-            int height = get_safe_int("Enter triangle height", MIN_DIMENSION, MAX_DIMENSION);
-            printf("\nResult:\n");
-            draw_triangle(height, style);
-            break;
-        }
-        default:
-            printf("Execution Error: Flow handling exception.\n");
+        printf("\n");
     }
 }
 
-int main(void) {
-    char input[MAX_INPUT];
-    ShapeType active_shape = SHAPE_INVALID;
+void triangle()
+{
+    int n,style;
 
-    while (1) {
-        system("clear || cls"); // Clears console screen professionally for a clean UI
-        display_header();
+    printf("Enter height: ");
+    scanf("%d",&n);
 
-        printf("Enter shape name: ");
-        if (fgets(input, sizeof(input), stdin) == NULL) {
-            printf("Fatal Error reading input stream.\n");
-            return EXIT_FAILURE;
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d",&style);
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=i;j++)
+        {
+            if(style==2 || i==n || j==1 || j==i)
+                printf("* ");
+            else
+                printf("  ");
         }
+        printf("\n");
+    }
+}
 
-        sanitize_string(input);
+void invertedTriangle()
+{
+    int n,style;
 
-        if (strcmp(input, "exit") == 0) {
-            printf("\nExiting program gracefully. Goodbye!\n");
-            break;
+    printf("Enter height: ");
+    scanf("%d",&n);
+
+    printf("1. Hollow\n2. Filled\n");
+    printf("Choose style: ");
+    scanf("%d",&style);
+
+    for(int i=n;i>=1;i--)
+    {
+        for(int j=1;j<=i;j++)
+        {
+            if(style==2 || i==n || j==1 || j==i)
+                printf("* ");
+            else
+                printf("  ");
         }
+        printf("\n");
+    }
+}
 
-        active_shape = get_shape_type(input);
+void diamond()
+{
+    int n;
 
-        if (active_shape == SHAPE_INVALID) {
-            printf("\n[Error] Invalid shape entered. Press Enter to retry...");
-            clear_buffer();
-            continue;
-        }
+    printf("Enter size: ");
+    scanf("%d",&n);
 
-        // Configuration and drawing lifecycle
-        process_rendering(active_shape);
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=i;j<n;j++)
+            printf(" ");
 
-        printf("\nOperation complete. Press Enter to draw another shape...");
-        clear_buffer();
+        for(int j=1;j<=2*i-1;j++)
+            printf("*");
+
+        printf("\n");
     }
 
-    return EXIT_SUCCESS;
+    for(int i=n-1;i>=1;i--)
+    {
+        for(int j=n;j>i;j--)
+            printf(" ");
+
+        for(int j=1;j<=2*i-1;j++)
+            printf("*");
+
+        printf("\n");
+    }
+}
+
+void parallelogram()
+{
+    int n;
+
+    printf("Enter size: ");
+    scanf("%d",&n);
+
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=n;j>i;j--)
+            printf(" ");
+
+        for(int j=1;j<=n;j++)
+            printf("* ");
+
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int choice;
+
+    while(1)
+    {
+        printf("\n");
+        printf("===== 2D SHAPE DRAWER =====\n");
+        printf("1. Square\n");
+        printf("2. Rectangle\n");
+        printf("3. Triangle\n");
+        printf("4. Inverted Triangle\n");
+        printf("5. Diamond\n");
+        printf("6. Parallelogram\n");
+        printf("7. Exit\n");
+
+        printf("Enter choice: ");
+        scanf("%d",&choice);
+
+        switch(choice)
+        {
+            case 1:
+                square();
+                break;
+
+            case 2:
+                rectangle();
+                break;
+
+            case 3:
+                triangle();
+                break;
+
+            case 4:
+                invertedTriangle();
+                break;
+
+            case 5:
+                diamond();
+                break;
+
+            case 6:
+                parallelogram();
+                break;
+
+            case 7:
+                printf("Program Ended.\n");
+                return 0;
+
+            default:
+                printf("Invalid Choice\n");
+        }
+    }
+
+    return 0;
 }
